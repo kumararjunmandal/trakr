@@ -1,69 +1,250 @@
-import Image from "next/image";
+// app/page.js
+'use client';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+	const [records, setRecords] = useState([]);
+	const [form, setForm] = useState({
+		odo: '',
+		totalCost: '',
+		pricePerLitre: '',
+	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	// Auto-calculate liters
+	const liters =
+		form.totalCost && form.pricePerLitre
+			? (
+					parseFloat(form.totalCost) / parseFloat(form.pricePerLitre)
+				).toFixed(2)
+			: '0.00';
+
+	useEffect(() => {
+		fetchRecords();
+	}, []);
+
+	const fetchRecords = async () => {
+		const res = await fetch('/api/fuel');
+		const data = await res.json();
+		setRecords(data);
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setIsSubmitting(true);
+
+		await fetch('/api/fuel', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				odo: form.odo,
+				'total cost': form.totalCost,
+				'price / litre': form.pricePerLitre,
+				liters: liters,
+			}),
+		});
+
+		setForm({ odo: '', totalCost: '', pricePerLitre: '' });
+		setIsSubmitting(false);
+		fetchRecords(); // Refresh the list
+	};
+
+	// Neumorphic Styles
+	const bgDark = '#1c212b';
+	const neuInset = 'inset 4px 4px 6px #0e1116, inset -4px -4px 6px #2a3140';
+	const neuExtrude = '5px 5px 10px #0e1116, -5px -5px 10px #2a3140';
+
+	return (
+		<div
+			style={{
+				background: bgDark,
+				minHeight: '100vh',
+				padding: '40px 20px',
+				fontFamily: 'system-ui, sans-serif',
+			}}
+		>
+			<div style={{ maxWidth: '400px', margin: '0 auto' }}>
+				{/* Input Form */}
+				<form
+					onSubmit={handleSubmit}
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						marginBottom: '40px',
+					}}
+				>
+					<h2
+						style={{
+							color: '#fff',
+							marginBottom: '24px',
+							textAlign: 'center',
+						}}
+					>
+						New Fuel Log
+					</h2>
+
+					<input
+						type="number"
+						step="any"
+						required
+						placeholder="Odometer (km)"
+						value={form.odo}
+						onChange={(e) =>
+							setForm({ ...form, odo: e.target.value })
+						}
+						style={{
+							padding: '18px',
+							borderRadius: '16px',
+							background: bgDark,
+							border: 'none',
+							color: '#fff',
+							boxShadow: neuInset,
+							marginBottom: '20px',
+							outline: 'none',
+						}}
+					/>
+					<input
+						type="number"
+						step="any"
+						required
+						placeholder="Total Cost (₹)"
+						value={form.totalCost}
+						onChange={(e) =>
+							setForm({ ...form, totalCost: e.target.value })
+						}
+						style={{
+							padding: '18px',
+							borderRadius: '16px',
+							background: bgDark,
+							border: 'none',
+							color: '#fff',
+							boxShadow: neuInset,
+							marginBottom: '20px',
+							outline: 'none',
+						}}
+					/>
+					<input
+						type="number"
+						step="any"
+						required
+						placeholder="Price per Litre (₹)"
+						value={form.pricePerLitre}
+						onChange={(e) =>
+							setForm({ ...form, pricePerLitre: e.target.value })
+						}
+						style={{
+							padding: '18px',
+							borderRadius: '16px',
+							background: bgDark,
+							border: 'none',
+							color: '#fff',
+							boxShadow: neuInset,
+							marginBottom: '20px',
+							outline: 'none',
+						}}
+					/>
+
+					<div
+						style={{
+							padding: '18px',
+							borderRadius: '16px',
+							background: bgDark,
+							color: '#99a6b8',
+							boxShadow: neuInset,
+							marginBottom: '30px',
+							display: 'flex',
+							justifyContent: 'space-between',
+						}}
+					>
+						<span>Calculated Liters:</span>
+						<span style={{ color: '#f2a6bf', fontWeight: 'bold' }}>
+							{liters} L
+						</span>
+					</div>
+
+					<button
+						type="submit"
+						disabled={isSubmitting}
+						style={{
+							padding: '18px',
+							borderRadius: '16px',
+							background: bgDark,
+							border: 'none',
+							color: '#f2a6bf',
+							fontWeight: 'bold',
+							fontSize: '16px',
+							boxShadow: neuExtrude,
+							cursor: 'pointer',
+						}}
+					>
+						{isSubmitting ? 'Saving...' : 'Save Record'}
+					</button>
+				</form>
+
+				{/* History List */}
+				<h3 style={{ color: '#fff', marginBottom: '20px' }}>History</h3>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '20px',
+					}}
+				>
+					{records.map((record) => (
+						<div
+							key={record._id}
+							style={{
+								padding: '20px',
+								borderRadius: '16px',
+								background: bgDark,
+								boxShadow: neuExtrude,
+								display: 'flex',
+								justifyContent: 'space-between',
+							}}
+						>
+							<div>
+								<div
+									style={{
+										color: '#fff',
+										fontWeight: 'bold',
+										marginBottom: '4px',
+									}}
+								>
+									{new Date(record.date).toLocaleDateString()}
+								</div>
+								<div
+									style={{
+										color: '#99a6b8',
+										fontSize: '14px',
+									}}
+								>
+									Odo: {record.odo} km
+								</div>
+							</div>
+							<div style={{ textAlign: 'right' }}>
+								<div
+									style={{
+										color: '#f2a6bf',
+										fontWeight: 'bold',
+										marginBottom: '4px',
+									}}
+								>
+									₹{record['total cost']}
+								</div>
+								<div
+									style={{
+										color: '#99a6b8',
+										fontSize: '14px',
+									}}
+								>
+									{record.liters} L @ ₹
+									{record['price / litre']}
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
+	);
 }
