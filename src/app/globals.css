@@ -1,9 +1,13 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-@theme inline {
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-faded: var(--primary-faded);
+  --color-accent: var(--accent);
+  --shadow-primary-glow: 0 0 15px var(--primary-glow);
+
+  /* Keep your other variables below... */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -50,6 +54,7 @@ input[type='number'] {
   }
 }
 
+/* Login page card gradient */
 .animate-rgb-gradient {
   background: linear-gradient(-45deg,
       #ff0000,
@@ -62,4 +67,84 @@ input[type='number'] {
       #ff0000);
   background-size: 400% 400%;
   animation: rgb-pan 20s ease infinite;
+}
+
+/* 1. Default Black & Blue Theme */
+:root {
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
+  --primary-faded: rgba(59, 130, 246, 0.1);
+  --primary-glow: rgba(59, 130, 246, 0.2);
+  --accent: #3B82F6;
+}
+
+/* 2. Robust Emerald & Light Pink Accent Theme */
+[data-theme='emerald'] {
+  --primary: #10B981;
+  --primary-hover: #059669;
+  --primary-faded: rgba(16, 185, 129, 0.1);
+  --primary-glow: rgba(16, 185, 129, 0.2);
+  --accent: #F9A8D4;
+  /* Light pink */
+}
+
+/* 3. Midnight Purple Theme */
+[data-theme='purple'] {
+  --primary: #8B5CF6;
+  --primary-hover: #7C3AED;
+  --primary-faded: rgba(139, 92, 246, 0.1);
+  --primary-glow: rgba(139, 92, 246, 0.2);
+  --accent: #A78BFA;
+}
+
+/* 4. Sunset Orange Theme */
+[data-theme='orange'] {
+  --primary: #F59E0B;
+  --primary-hover: #D97706;
+  --primary-faded: rgba(245, 158, 11, 0.1);
+  --primary-glow: rgba(245, 158, 11, 0.2);
+  --accent: #FCD34D;
+}
+
+/* 5. Neon Cyan Theme */
+[data-theme='cyan'] {
+  --primary: #06B6D4;
+  --primary-hover: #0891B2;
+  --primary-faded: rgba(6, 182, 212, 0.1);
+  --primary-glow: rgba(6, 182, 212, 0.2);
+  --accent: #67E8F9;
+}
+
+
+/* ========================================= */
+/*               LIGHT THEMES                */
+/* ========================================= */
+
+/* 6. Light Emerald (Robust Green with Light Pink Accents) */
+:root[data-theme='light-emerald'] {
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-foreground: #0F172A;
+  --color-muted: #64748B;
+  --color-border: #E2E8F0;
+
+  --color-primary: #10B981;
+  --color-primary-hover: #059669;
+  --color-primary-faded: rgba(16, 185, 129, 0.1);
+  --shadow-primary-glow: 0 0 15px rgba(249, 168, 212, 0.5);
+  /* Pink neomorphic glow */
+}
+
+/* 7. Light Blue */
+:root[data-theme='light-blue'] {
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-foreground: #0F172A;
+  --color-muted: #64748B;
+  --color-border: #E2E8F0;
+
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-primary-faded: rgba(59, 130, 246, 0.1);
+  --shadow-primary-glow: 0 0 15px rgba(59, 130, 246, 0.2);
 }

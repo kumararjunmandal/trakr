@@ -1,22 +1,31 @@
+// src/app/layout.tsx
+'use client'; 
 
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./Providers";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import { SessionProvider } from "next-auth/react";
+import { useEffect } from "react";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// THIS COMPONENT AUTO-APPLIES THE THEME GLOBALLY
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    const fetchUserTheme = async () => {
+      try {
+        const res = await fetch('/api/user');
+        if (res.ok) {
+          const userData = await res.json();
+          if (userData.theme) {
+            document.documentElement.setAttribute('data-theme', userData.theme);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch global theme:', error);
+      }
+    };
+    fetchUserTheme();
+  }, []);
 
-export const metadata: Metadata = {
-  title: "trakr - Fuel Management",
-  description: "Track your fuel and expenses",
-};
+  return <>{children}</>;
+}
 
 export default function RootLayout({
   children,
@@ -24,14 +33,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-neutral-950 text-neutral-200 selection:bg-emerald-500/30">
-      <Providers>
-        {children}
-      </Providers>
+    <html lang="en">
+      <body className="antialiased text-[#FAFAFA] bg-[#000000]">
+        <SessionProvider>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
