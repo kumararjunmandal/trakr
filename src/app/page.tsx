@@ -239,7 +239,7 @@ export default function Home() {
                <span>+</span> Add Fuel Log
             </Link>
             <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-[#A1A1AA] hover:text-[#FAFAFA] px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-               <span>⚙</span> Profile Settings
+               <span>/_\</span> Profile Settings
             </Link>
             <button onClick={() => signOut({ callbackUrl: '/login' })} className="flex items-center gap-3 text-[#A1A1AA] hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left mt-2">
                <span>x</span> Sign Out
