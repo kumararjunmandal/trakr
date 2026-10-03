@@ -51,7 +51,7 @@ export default function Login() {
 
           <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Welcome back!</h1>
           <p className="text-sm text-neutral-400 leading-relaxed mb-8">
-            We empower developers and technical teams to create, simulate, and manage AI-driven workflows visually
+          
           </p>
 
           <form onSubmit={handleCredentialsLogin} className="flex flex-col gap-5">
@@ -73,7 +73,7 @@ export default function Login() {
             <div className="flex flex-col gap-2">
               <label className="text-xs font-semibold text-neutral-300">Password</label>
               <input 
-                type="password" required placeholder="Create a password" 
+                type="password" required placeholder="********" 
                 value={password} onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-[#1c1c1c] border border-[#2e2e2e] rounded-lg px-4 py-3 text-sm text-neutral-100 placeholder:text-neutral-600 focus:outline-none focus:border-emerald-500/50 focus:bg-[#222] transition-all"
               />
@@ -151,7 +151,7 @@ export default function Login() {
               
               <div className="flex flex-col">
                 <span className="text-neutral-400 text-xs font-semibold">snowman</span>
-                <span className="text-neutral-500 text-[10px] uppercase tracking-wide mt-0.5">Creator of  <strong className="text-neutral-300">Yedus.</strong></span>
+                <span className="text-neutral-500 text-[10px] uppercase tracking-wide mt-0.5">Creator of  <strong className="text-neutral-300">Darcseid Inc.</strong></span>
               </div>
             </div>
           </div>

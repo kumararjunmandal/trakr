@@ -239,17 +239,17 @@ export default function Home() {
                <span>+</span> Add Fuel Log
             </Link>
             <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-[#A1A1AA] hover:text-[#FAFAFA] px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-               <span>👤</span> Profile Settings
+               <span>⚙</span> Profile Settings
             </Link>
             <button onClick={() => signOut({ callbackUrl: '/login' })} className="flex items-center gap-3 text-[#A1A1AA] hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left mt-2">
-               <span>⚙</span> Sign Out
+               <span>x</span> Sign Out
             </button>
           </nav>
 
           <div className="flex flex-col gap-3 mt-6 pt-4 border-t border-[#27272A]">
-            <Link href="/add" onClick={() => setIsMobileMenuOpen(false)} className="w-full bg-primary hover:bg-primary-hover text-white py-3 lg:py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-primary-glow">
+            {/* <Link href="/add" onClick={() => setIsMobileMenuOpen(false)} className="w-full bg-primary hover:bg-primary-hover text-white py-3 lg:py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-primary-glow">
                Log Refill <span className="text-base leading-none">+</span>
-            </Link>
+            </Link> */}
 
             <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 bg-[#1A1A1C] lg:bg-[#0F0F11] hover:border-primary p-3 lg:p-2.5 rounded-xl border border-[#27272A] transition-colors cursor-pointer">
               {session?.user?.image ? (
