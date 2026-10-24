@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
-
+import SidebarNav from '@/components/SidebarNav';
 interface FuelRecord {
   _id: string;
   refill_date: string;
@@ -230,21 +230,7 @@ export default function Home() {
             </button>
           </div>
 
-          <nav className="flex flex-col gap-1 mb-auto">
-            <div className="text-[11px] text-[#A1A1AA] mb-2 px-3">Menu</div>
-            <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 bg-[#1A1A1C] lg:bg-[#0F0F11] text-[#FAFAFA] px-3 py-2.5 rounded-lg text-sm font-medium border border-primary/20 lg:border-[#27272A]">
-               <span className="text-primary">∷</span> Dashboard
-            </Link>
-            <Link href="/add" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-[#A1A1AA] hover:text-[#FAFAFA] px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-               <span>+</span> Add Fuel Log
-            </Link>
-            <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 text-[#A1A1AA] hover:text-[#FAFAFA] px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-               <span>~</span> Profile Settings
-            </Link>
-            <button onClick={() => signOut({ callbackUrl: '/login' })} className="flex items-center gap-3 text-[#A1A1AA] hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left mt-2">
-               <span>x</span> Sign Out
-            </button>
-          </nav>
+          <SidebarNav setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
           <div className="flex flex-col gap-3 mt-6 pt-4 border-t border-[#27272A]">
             {/* <Link href="/add" onClick={() => setIsMobileMenuOpen(false)} className="w-full bg-primary hover:bg-primary-hover text-white py-3 lg:py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-primary-glow">
