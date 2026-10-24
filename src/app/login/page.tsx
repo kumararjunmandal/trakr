@@ -93,7 +93,7 @@ export default function Login() {
           </div>
 
           <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
-            {isResetMode ? 'Reset Password' : 'Welcome back!'}
+            {isResetMode ? 'Reset Password' : 'Welcome back to Trakr!'}
           </h1>
           <p className="text-sm text-neutral-400 leading-relaxed mb-8">
             {isResetMode ? 'Enter your email and we will send you a link to reset your password.' : ''}
