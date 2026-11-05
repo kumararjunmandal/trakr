@@ -33,7 +33,7 @@ export default function Register() {
   };
 
   return (
-    <main className="min-h-screen w-full flex items-center justify-center bg-[#0a0a0a] text-neutral-200 font-sans p-6 sm:p-12">
+    <main className="min-h-[100dvh] w-full flex items-center justify-center bg-[#0a0a0a] text-neutral-200 font-sans p-6 sm:p-12">
       
       <div className="w-full max-w-5xl flex flex-col lg:flex-row items-stretch gap-12 lg:gap-20">
         
